@@ -39,6 +39,7 @@ import logging
 logger = logging.getLogger(__name__)
 import warnings
 import math
+import base64
 
 import xml.dom.minidom
 
@@ -567,12 +568,6 @@ class Literal(Identifier):
                 # passed a string
                 # try parsing lexical form of datatyped literal
                 value = _castLexicalToPython(lexical_or_value, datatype)
-
-                if value is not None and normalize:
-                    _value, _datatype = _castPythonToLiteral(value)
-                    if _value is not None:
-                        lexical_or_value = _value
-
         else:
             # passed some python object
             value = lexical_or_value
@@ -1494,7 +1489,7 @@ XSDToPython = {
     URIRef(_XSD_PFX + 'unsignedByte'): int,
     URIRef(_XSD_PFX + 'float'): float,
     URIRef(_XSD_PFX + 'double'): float,
-    URIRef(_XSD_PFX + 'base64Binary'): None,
+    URIRef(_XSD_PFX + 'base64Binary'): lambda s: base64.b64decode(s),
     URIRef(_XSD_PFX + 'anyURI'): None,
     _RDF_XMLLITERAL: _parseXML,
     _RDF_HTMLLITERAL: _parseHTML
