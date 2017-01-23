@@ -38,7 +38,7 @@ class A(unittest.TestCase):
 
     def test_module_names(self):
         names = self.module_names()
-        self.assert_(names==set(), "module names '%s' are not lower case" % names)
+        self.assertTrue(names==set(), "module names '%s' are not lower case" % names)
 
 try:
     getattr(pkgutil, 'iter_modules')
